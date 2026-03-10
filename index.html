@@ -30,7 +30,7 @@
         .cornstalk-border {
             position: fixed;
             bottom: 0;
-            width: 280px;
+            width: 200px;
             height: 100vh;
             pointer-events: none;
             z-index: 0;
@@ -40,11 +40,11 @@
         }
 
         .cornstalk-left {
-            left: 10px;
+            left: max(5px, calc((100vw - 1900px) / 2 - 320px));
         }
 
         .cornstalk-right {
-            right: 10px;
+            right: max(5px, calc((100vw - 1900px) / 2 - 320px));
             transform: scaleX(-1);
         }
 
@@ -63,8 +63,8 @@
             object-fit: contain;
         }
 
-        /* Tablets - hide side cornstalks, show centered cornstalk.png */
-        @media (max-width: 1400px) and (min-width: 768px) {
+        /* Tablets and smaller desktops - hide side cornstalks, show centered cornstalk.png */
+        @media (max-width: 1700px) and (min-width: 768px) {
             .cornstalk-border {
                 display: none;
             }
