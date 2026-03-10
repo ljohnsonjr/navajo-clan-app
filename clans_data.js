@@ -108,7 +108,7 @@ const clansDatabase = [
     { navajo: "Táchiiʼnii", english: "Red Running into the Water", group: "Group 6 (Red)", type: "" },
     { navajo: "Tązhii diné'é", english: "Turkey People", group: "Group 1 (White)", type: "" },
     { navajo: "Tábąąhá", english: "Water Edge", group: "Group 5 (Dark Green)", type: "" },
-    { navajo: "Tídįdiin diné'é", english: "Corn Pollen People", group: "Group 18 (Light Green)", type: "Adopted clan" },
+    { navajo: "Tádidiin diné'é", english: "Corn Pollen People", group: "Group 18 (Light Green)", type: "Adopted clan" },
     { navajo: "Tł'ááshchí'í", english: "The Red Bottom People", group: "Group 9 (Lavender)", type: "" },
     { navajo: "Tłízí daalchí'í", english: "Red Goat", group: "Group 6 (Red)", type: "" },
     { navajo: "Tłízí łaní", english: "Many Goat", group: "Group 9 (Lavender)", type: "" },
