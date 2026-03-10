@@ -516,32 +516,128 @@ function generateIntroduction(userName, userClans, userNum) {
     const clan3 = userClans[2].navajo;
     const clan4 = userClans[3].navajo;
     
-    // Build traditional Navajo introduction
+    // Build the Navajo text for copying
+    const navajoText = `Yá'át'ééh. Shí éí ${name} yinishyé. ${clan1} nishłį́. ${clan2} báshíshchíín. ${clan3} dashicheii. ${clan4} dashinálí. Ákót'éego Diné nishłį́.`;
+    
+    // Build beautiful social media-ready introduction
     const introduction = `
-        <div style="background: #FFF9E6; border-left: 4px solid #FDB813; padding: 25px; border-radius: 10px; margin-top: 20px;">
-            <h3 style="color: #2C2C2C; margin-bottom: 15px; font-size: 1.4em;">Traditional Navajo Introduction</h3>
-            <p style="font-size: 1.2em; line-height: 1.8; color: #333;">
-                <strong>Yá'át'ééh.</strong> Shí éí <strong>${safeName}</strong> yinishyé.<br>
-                <strong>${clan1}</strong> nishłį́.<br>
-                <strong>${clan2}</strong> báshíshchíín.<br>
-                <strong>${clan3}</strong> dashicheii.<br>
-                <strong>${clan4}</strong> dashinálí.<br>
-                <strong>Ákót'éego Diné nishłį́.</strong>
-            </p>
-            <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #FDB813; font-size: 0.95em; color: #666;">
-                <p><strong>Translation:</strong></p>
-                <p>Hello. My name is ${safeName}.<br>
-                I am ${userClans[0].english} (mother's clan).<br>
-                I am born for ${userClans[1].english} (father's clan).<br>
-                My maternal grandfather is ${userClans[2].english}.<br>
-                My paternal grandfather is ${userClans[3].english}.<br>
-                In this way, I am Navajo.</p>
+        <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #40E0D0 0%, #2CA89F 100%); padding: 3px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);">
+            <!-- Sacred Colors Bar -->
+            <div style="display: flex; height: 10px; border-radius: 18px 18px 0 0;">
+                <div style="flex: 1; background: #B7410E;"></div>
+                <div style="flex: 1; background: #40E0D0;"></div>
+                <div style="flex: 1; background: #FDB813;"></div>
+                <div style="flex: 1; background: #2C2C2C;"></div>
+            </div>
+            
+            <!-- Main Content Card -->
+            <div style="background: white; padding: 40px 30px; border-radius: 0 0 18px 18px; position: relative;">
+                
+                <!-- Decorative Cornstalk Corner Images -->
+                <img src="leaderbasket-removebg-preview.png" alt="Wedding basket" class="intro-basket-decoration" style="position: absolute; top: 15px; left: 10px; opacity: 1.0; width: 80px; height: 80px; object-fit: contain;">
+                <img src="leaderbasket-removebg-preview.png" alt="Wedding basket" class="intro-basket-decoration" style="position: absolute; top: 15px; right: 10px; opacity: 1.0; width: 80px; height: 80px; object-fit: contain;">
+                
+                <!-- Title -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="color: #40E0D0; font-size: 1.8em; margin: 0 0 5px 0; font-weight: 700;">Yá'át'ééh</h2>
+                    <p style="color: #666; margin: 0; font-size: 0.9em;">Traditional Navajo Introduction</p>
+                </div>
+                
+                <!-- Navajo Introduction Text -->
+                <div id="intro-text-content" style="background: linear-gradient(to bottom, #FFF9E6, #FFFEF8); border-left: 5px solid #FDB813; border-right: 5px solid #FDB813; padding: 30px 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <p style="font-size: 1.35em; line-height: 2; color: #2C2C2C; margin: 0; text-align: center; font-weight: 500;">
+                        <span style="display: block; margin-bottom: 12px;">Shí éí <strong style="color: #B7410E;">${safeName}</strong> yinishyé.</span>
+                        <span style="display: block; margin-bottom: 10px;"><strong style="color: #2C2C2C;">${clan1}</strong> nishłį́.</span>
+                        <span style="display: block; margin-bottom: 10px;"><strong style="color: #2C2C2C;">${clan2}</strong> báshíshchíín.</span>
+                        <span style="display: block; margin-bottom: 10px;"><strong style="color: #2C2C2C;">${clan3}</strong> dashicheii.</span>
+                        <span style="display: block; margin-bottom: 15px;"><strong style="color: #2C2C2C;">${clan4}</strong> dashinálí.</span>
+                        <span style="display: block;"><strong style="color: #40E0D0;">Ákót'éego Diné nishłį́.</strong></span>
+                    </p>
+                </div>
+                
+                <!-- English Translation -->
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <p style="margin: 0 0 10px 0; font-size: 0.85em; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">English Translation:</p>
+                    <p style="font-size: 1em; line-height: 1.7; color: #555; margin: 0;">
+                        <strong>Hello.</strong> My name is <strong>${safeName}</strong>.<br>
+                        I am <strong>${userClans[0].english}</strong> (mother's clan).<br>
+                        I am born for <strong>${userClans[1].english}</strong> (father's clan).<br>
+                        My maternal grandfather is <strong>${userClans[2].english}</strong>.<br>
+                        My paternal grandfather is <strong>${userClans[3].english}</strong>.<br>
+                        <strong>In this way, I am Navajo.</strong>
+                    </p>
+                </div>
+                
+                <!-- Copy Button -->
+                <div style="text-align: center;">
+                    <button onclick="copyIntroduction('${navajoText.replace(/'/g, "\\'")}', '${safeName}', event)" style="background: linear-gradient(135deg, #40E0D0, #2CA89F); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-size: 1.1em; font-weight: 600; cursor: pointer; box-shadow: 0 5px 15px rgba(64, 224, 208, 0.4); transition: transform 0.2s, box-shadow 0.2s;">
+                        📋 Copy to Share
+                    </button>
+                    <p style="margin-top: 15px; font-size: 0.85em; color: #999;">Click to copy • Perfect for social media</p>
+                </div>
+                
+                <!-- Bottom Decoration -->
+                <div style="text-align: center; margin-top: 25px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                    <p style="margin: 0; font-size: 0.8em; color: #999;">Honoring Navajo Tradition</p>
+                </div>
             </div>
         </div>
     `;
     
     // Display in modal
     showIntroductionModal(introduction);
+}
+
+function copyIntroduction(text, name, event) {
+    // Try modern Clipboard API first
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            showCopySuccess(event.target);
+        }).catch(() => {
+            // Fallback to older method
+            fallbackCopy(text, event.target);
+        });
+    } else {
+        // Use fallback method
+        fallbackCopy(text, event.target);
+    }
+}
+
+function fallbackCopy(text, button) {
+    // Create temporary textarea
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    
+    try {
+        textarea.select();
+        textarea.setSelectionRange(0, 99999); // For mobile devices
+        
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        
+        if (successful) {
+            showCopySuccess(button);
+        } else {
+            alert('Could not copy. Please manually select and copy the text.');
+        }
+    } catch (err) {
+        document.body.removeChild(textarea);
+        alert('Could not copy. Please manually select and copy the text.');
+    }
+}
+
+function showCopySuccess(button) {
+    const originalText = button.innerHTML;
+    button.innerHTML = '✅ Copied!';
+    button.style.background = '#28a745';
+    
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.style.background = 'linear-gradient(135deg, #40E0D0, #2CA89F)';
+    }, 2000);
 }
 
 function showIntroductionModal(content) {
@@ -552,12 +648,12 @@ function showIntroductionModal(content) {
         modal.id = 'introduction-modal';
         modal.className = 'dropdown-modal';
         modal.innerHTML = `
-            <div class="dropdown-modal-content" style="max-width: 800px;">
-                <div class="dropdown-modal-header">
+            <div class="dropdown-modal-content" style="max-width: 700px; max-height: 90vh; overflow-y: auto;">
+                <div class="dropdown-modal-header" style="background: linear-gradient(135deg, #40E0D0, #2CA89F);">
                     <button class="dropdown-modal-close" onclick="closeIntroductionModal()">&times;</button>
                     <div>Your Navajo Introduction</div>
                 </div>
-                <div class="dropdown-modal-body" id="introduction-body"></div>
+                <div class="dropdown-modal-body" id="introduction-body" style="padding: 30px 20px;"></div>
             </div>
         `;
         document.body.appendChild(modal);
