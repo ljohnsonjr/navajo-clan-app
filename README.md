@@ -8,7 +8,7 @@ Compare clan relationships between two people with **proper Navajo orthography**
 - **Dééł diné** (Crane) - Group 11
 - **Bééh diné** (Deer) - Group 11
 - **Dził táíaánii** (Near the Mountain) - Group 1
-- **Azeeátsoh Diné** (Big Medicine People) - Group 1
+- **Azee'tsoh Diné** (Big Medicine People) - Group 1
 
 All clan names display with correct:
 - **á, é, í, ó** - High tones
@@ -68,7 +68,7 @@ Bééh diné | Deer
 **Group 1 (White)** - Bear Protector
 - Kinyaaáíanii (Towering House)
 - Dził táíaánii (Near the Mountain)
-- Azeeátsoh Diné (Big Medicine People)
+- Azee'tsoh Diné (Big Medicine People)
 - Plus 6 more clans
 
 **Group 2 (Blue)** - Cougar Protector
