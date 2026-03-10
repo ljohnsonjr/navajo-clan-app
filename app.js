@@ -493,4 +493,135 @@ function closeDropdownModal() {
 document.addEventListener('DOMContentLoaded', () => {
     populateSelects();
     setupCustomDropdowns();
+    setupIntroductionButtons();
 });
+
+// Generate Navajo Introduction
+function generateIntroduction(userName, userClans, userNum) {
+    const name = userName || `User ${userNum}`;
+    
+    // Validate that all clans are selected
+    const allSelected = userClans.every(clan => clan && clan.navajo !== 'Clan not listed');
+    if (!allSelected) {
+        alert('Please select all 4 clans before generating an introduction.');
+        return;
+    }
+    
+    // Sanitize name for XSS protection
+    const safeName = sanitizeHTML(name);
+    
+    // Get Navajo clan names (without English or extra info)
+    const clan1 = userClans[0].navajo;
+    const clan2 = userClans[1].navajo;
+    const clan3 = userClans[2].navajo;
+    const clan4 = userClans[3].navajo;
+    
+    // Build traditional Navajo introduction
+    const introduction = `
+        <div style="background: #FFF9E6; border-left: 4px solid #FDB813; padding: 25px; border-radius: 10px; margin-top: 20px;">
+            <h3 style="color: #2C2C2C; margin-bottom: 15px; font-size: 1.4em;">Traditional Navajo Introduction</h3>
+            <p style="font-size: 1.2em; line-height: 1.8; color: #333;">
+                <strong>Yá'át'ééh.</strong> Shí éí <strong>${safeName}</strong> yinishyé.<br>
+                <strong>${clan1}</strong> nishłį́.<br>
+                <strong>${clan2}</strong> báshíshchíín.<br>
+                <strong>${clan3}</strong> dashicheii.<br>
+                <strong>${clan4}</strong> dashinálí.<br>
+                <strong>Ákót'éego Diné nishłį́.</strong>
+            </p>
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 2px solid #FDB813; font-size: 0.95em; color: #666;">
+                <p><strong>Translation:</strong></p>
+                <p>Hello. My name is ${safeName}.<br>
+                I am ${userClans[0].english} (mother's clan).<br>
+                I am born for ${userClans[1].english} (father's clan).<br>
+                My maternal grandfather is ${userClans[2].english}.<br>
+                My paternal grandfather is ${userClans[3].english}.<br>
+                In this way, I am Navajo.</p>
+            </div>
+        </div>
+    `;
+    
+    // Display in modal
+    showIntroductionModal(introduction);
+}
+
+function showIntroductionModal(content) {
+    // Create or get existing modal
+    let modal = document.getElementById('introduction-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'introduction-modal';
+        modal.className = 'dropdown-modal';
+        modal.innerHTML = `
+            <div class="dropdown-modal-content" style="max-width: 800px;">
+                <div class="dropdown-modal-header">
+                    <button class="dropdown-modal-close" onclick="closeIntroductionModal()">&times;</button>
+                    <div>Your Navajo Introduction</div>
+                </div>
+                <div class="dropdown-modal-body" id="introduction-body"></div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeIntroductionModal();
+            }
+        });
+    }
+    
+    document.getElementById('introduction-body').innerHTML = content;
+    modal.classList.add('active');
+}
+
+function closeIntroductionModal() {
+    const modal = document.getElementById('introduction-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+// Add button click handlers
+function setupIntroductionButtons() {
+    // User 1 button
+    const user1Button = document.createElement('button');
+    user1Button.className = 'compare-button';
+    user1Button.textContent = 'Generate My Introduction';
+    user1Button.style.marginTop = '10px';
+    user1Button.style.background = '#40E0D0';
+    user1Button.onclick = () => {
+        const userName = document.getElementById('user1-name').value.trim() || 'User 1';
+        const userClans = [
+            getClanFromValue(document.getElementById('user1-clan1').value),
+            getClanFromValue(document.getElementById('user1-clan2').value),
+            getClanFromValue(document.getElementById('user1-clan3').value),
+            getClanFromValue(document.getElementById('user1-clan4').value)
+        ];
+        generateIntroduction(userName, userClans, 1);
+    };
+    
+    // User 2 button
+    const user2Button = document.createElement('button');
+    user2Button.className = 'compare-button';
+    user2Button.textContent = 'Generate My Introduction';
+    user2Button.style.marginTop = '10px';
+    user2Button.style.background = '#40E0D0';
+    user2Button.onclick = () => {
+        const userName = document.getElementById('user2-name').value.trim() || 'User 2';
+        const userClans = [
+            getClanFromValue(document.getElementById('user2-clan1').value),
+            getClanFromValue(document.getElementById('user2-clan2').value),
+            getClanFromValue(document.getElementById('user2-clan3').value),
+            getClanFromValue(document.getElementById('user2-clan4').value)
+        ];
+        generateIntroduction(userName, userClans, 2);
+    };
+    
+    // Insert buttons
+    const user1Panel = document.querySelector('.user-panel:nth-of-type(1)');
+    const user2Panel = document.querySelector('.user-panel:nth-of-type(2)');
+    
+    user1Panel.appendChild(user1Button);
+    user2Panel.appendChild(user2Button);
+}
+
