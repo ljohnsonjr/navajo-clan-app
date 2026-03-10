@@ -544,8 +544,8 @@ function generateIntroduction(userName, userClans, userNum) {
                 </div>
                 
                 <!-- Navajo Introduction Text -->
-                <div id="intro-text-content" style="background: linear-gradient(to bottom, #FFF9E6, #FFFEF8); border-left: 5px solid #FDB813; border-right: 5px solid #FDB813; padding: 30px 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
-                    <p style="font-size: 1.35em; line-height: 2; color: #2C2C2C; margin: 0; text-align: center; font-weight: 500;">
+                <div id="intro-text-content" class="intro-text-container" style="background: linear-gradient(to bottom, #FFF9E6, #FFFEF8); border-left: 5px solid #FDB813; border-right: 5px solid #FDB813; padding: 30px 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                    <p class="intro-navajo-text" style="font-size: 1.35em; line-height: 2; color: #2C2C2C; margin: 0; text-align: center; font-weight: 500;">
                         <span style="display: block; margin-bottom: 12px;">Shí éí <strong style="color: #B7410E;">${safeName}</strong> yinishyé.</span>
                         <span style="display: block; margin-bottom: 10px;"><strong style="color: #2C2C2C;">${clan1}</strong> nishłį́.</span>
                         <span style="display: block; margin-bottom: 10px;"><strong style="color: #2C2C2C;">${clan2}</strong> báshíshchíín.</span>
