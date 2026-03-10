@@ -7,7 +7,7 @@ Compare clan relationships between two people with **proper Navajo orthography**
 - **Áshįįhį** (Salt) - Group 7
 - **Dééł diné** (Crane) - Group 11
 - **Bééh diné** (Deer) - Group 11
-- **Dził táíaánii** (Near the Mountain) - Group 1
+- **Dził t'áa'nii** (Near the Mountain) - Group 1
 - **Azee'tsoh Diné** (Big Medicine People) - Group 1
 
 All clan names display with correct:
@@ -58,7 +58,7 @@ Bééh diné | Deer
 #     Navajo Name                         English Name                        Group
 ----------------------------------------------------------------------------------------------------
 29    Dééł diné                           Crane                               Group 11 (Light Green)
-60    Kinyaaáíanii                        Towering House                      Group 1
+60    Kinyaa'áanii                        Towering House                      Group 1
 ```
 
 ## 🎯 Clan Groups
@@ -66,29 +66,29 @@ Bééh diné | Deer
 ### Traditional Navajo Clans
 
 **Group 1 (White)** - Bear Protector
-- Kinyaaáíanii (Towering House)
-- Dził táíaánii (Near the Mountain)
+- Kinyaa'áanii (Towering House)
+- Dził t'áa'nii (Near the Mountain)
 - Azee'tsoh Diné (Big Medicine People)
 - Plus 6 more clans
 
 **Group 2 (Blue)** - Cougar Protector
-- Honíghíahnii (One Who Walks Around)
-- Tóáahanį (Near the Water)
+- Honágháahnii (One Who Walks Around)
+- Tó'áhání (Near the Water)
 - Plus 6 more clans
 
 **Group 3 (Yellow)** - Big Snake Protector
-- Tódįcháiiánii (Bitter Water)
-- Bééh bitooánii (Deer Spring)
+- Tódíchʼíiʼnii (Bitter Water)
+- Bįįh Bitoodnii (Deer Spring)
 - Plus 10 more clans
 
 **Group 4 (Black)** - Porcupine Protector
-- Hashtłáishnii (Mud Clan)
+- Hashtł'ishnii (Mud Clan)
 - Tó tsohnii (Big Water)
 - Plus 4 more clans
 
 **Group 7 (Brown)**
 - Áshįįhį (Salt) ⭐
-- Dib' łizhinį (Black Sheep)
+- Dibé łizhiní (Black Sheep)
 - Maáii Deeshgiizhnii (Coyote Pass-Jemez)
 - Plus 4 more clans
 
@@ -107,15 +107,15 @@ CLAN COMPARISON RESULTS
 ====================================================================================================
 
 John's Clans:
-  1. Kinyaaáíanii (Towering House) - Group 1
-  2. Honíghíahnii (One Who Walks Around) - Group 2
-  3. Tódįcháiiánii (Bitter Water) - Group 3
-  4. Hashtłáishnii (Mud Clan) - Group 4
+  1. Kinyaa'áanii (Towering House) - Group 1
+  2. Honágháahnii (One Who Walks Around) - Group 2
+  3. Tódíchʼíiʼnii (Bitter Water) - Group 3
+  4. Hashtł'ishnii (Mud Clan) - Group 4
 
 Mary's Clans:
-  1. Dził táíaánii (Near the Mountain) - Group 1
-  2. Tóáahanį (Near the Water) - Group 2
-  3. Bééh bitooánii (Deer Spring) - Group 3
+  1. Dził t'áa'nii (Near the Mountain) - Group 1
+  2. Tó'áhání (Near the Water) - Group 2
+  3. Bįįh Bitoodnii (Deer Spring) - Group 3
   4. Tó tsohnii (Big Water) - Group 4
 
 ====================================================================================================
@@ -123,8 +123,8 @@ POSITION-BY-POSITION COMPARISON:
 ====================================================================================================
 
 1st Clan Comparison:
-  John: Kinyaaáíanii (Towering House) - Group 1
-  Mary: Dził táíaánii (Near the Mountain) - Group 1
+  John: Kinyaa'áanii (Towering House) - Group 1
+  Mary: Dził t'áa'nii (Near the Mountain) - Group 1
   ⚠️  GROUP MATCH: Both clans are in Group 1
 ```
 
