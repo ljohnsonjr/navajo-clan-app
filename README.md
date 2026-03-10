@@ -6,7 +6,7 @@ Compare clan relationships between two people with **proper Navajo orthography**
 
 - **Áshįįhį** (Salt) - Group 7
 - **Dééł diné** (Crane) - Group 11
-- **Bééh diné** (Deer) - Group 11
+- **Bįįh diné'é** (Deer) - Group 11
 - **Dził t'áa'nii** (Near the Mountain) - Group 1
 - **Azee'tsoh Diné** (Big Medicine People) - Group 1
 
@@ -32,7 +32,7 @@ All 144 clans show both Navajo and English names:
 ```
 Áshįįhį | Salt
 Dééł diné | Crane
-Bééh diné | Deer
+Bįįh diné'é | Deer
 ```
 
 ### 3. Comprehensive Database ✓
@@ -95,7 +95,7 @@ Bééh diné | Deer
 ### Adopted Clans
 
 **Group 11 (Light Green)** - Hopi
-- 29 clans including Dééł diné (Crane), Bééh diné (Deer)
+- 29 clans including Dééł diné (Crane), Bįįh diné'é (Deer)
 
 **Groups 12-18** - Other tribes and nations
 
