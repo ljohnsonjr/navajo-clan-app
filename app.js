@@ -1,5 +1,12 @@
 // Navajo Clan Application Logic
 
+// Sanitize HTML to prevent XSS attacks
+function sanitizeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 // Separate clans into Traditional Navajo and Adopted
 function categorizeClans() {
     const navajoClans = [];
@@ -138,16 +145,20 @@ function compareClans() {
 function displayResults(user1Name, user1Clans, user2Name, user2Clans) {
     const resultsDiv = document.getElementById('results');
     const positions = ['1st (Born to)', '2nd (Born for)', '3rd (Maternal Grandfather)', '4th (Paternal Grandfather)'];
+    
+    // Sanitize user names to prevent XSS
+    const safeUser1Name = sanitizeHTML(user1Name);
+    const safeUser2Name = sanitizeHTML(user2Name);
 
     let html = `
         <div class="results-header">
             <h2>Clan Comparison Results</h2>
-            <p>${user1Name} and ${user2Name}</p>
+            <p>${safeUser1Name} and ${safeUser2Name}</p>
         </div>
 
         <div class="clan-lists">
             <div class="clan-list">
-                <h3>${user1Name}'s Clans</h3>
+                <h3>${safeUser1Name}'s Clans</h3>
                 ${user1Clans.map((clan, i) => `
                     <div class="clan-item">
                         <div class="navajo">${i + 1}. ${clan.navajo}</div>
@@ -158,7 +169,7 @@ function displayResults(user1Name, user1Clans, user2Name, user2Clans) {
             </div>
 
             <div class="clan-list">
-                <h3>${user2Name}'s Clans</h3>
+                <h3>${safeUser2Name}'s Clans</h3>
                 ${user2Clans.map((clan, i) => `
                     <div class="clan-item">
                         <div class="navajo">${i + 1}. ${clan.navajo}</div>
@@ -181,13 +192,13 @@ function displayResults(user1Name, user1Clans, user2Name, user2Clans) {
                         <h4>${position} Clan Comparison</h4>
                         <div class="comparison-pair">
                             <div class="comparison-item">
-                                <div class="label">${user1Name}:</div>
+                                <div class="label">${safeUser1Name}:</div>
                                 <div class="navajo">${clan1.navajo}</div>
                                 <div class="english">${formatClanDisplay(clan1)}</div>
                                 <div class="group">${clan1.group}</div>
                             </div>
                             <div class="comparison-item">
-                                <div class="label">${user2Name}:</div>
+                                <div class="label">${safeUser2Name}:</div>
                                 <div class="navajo">${clan2.navajo}</div>
                                 <div class="english">${formatClanDisplay(clan2)}</div>
                                 <div class="group">${clan2.group}</div>
@@ -203,7 +214,7 @@ function displayResults(user1Name, user1Clans, user2Name, user2Clans) {
     `;
 
     // Overall analysis
-    const analysis = getOverallAnalysis(user1Name, user1Clans, user2Name, user2Clans);
+    const analysis = getOverallAnalysis(safeUser1Name, user1Clans, safeUser2Name, user2Clans);
     html += `
         <div class="overall-analysis">
             <h3>Overall Analysis</h3>
