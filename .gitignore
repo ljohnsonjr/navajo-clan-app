@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Editor directories
+.cursor/
+.vscode/
+.idea/
+.claude/
+
+# Temporary files
+*.tmp
+*.bak
+*~

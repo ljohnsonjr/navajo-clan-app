@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sf org:*)",
+      "Bash(cd:*)",
+      "Bash(python3:*)",
+      "mcp__gus__gus_work_list",
+      "WebFetch(domain:github.com)"
+    ]
+  }
+}

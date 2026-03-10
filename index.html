@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navajo Clan Relationship Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #40E0D0;
+            min-height: 100vh;
+            padding: 20px;
+            color: #2C2C2C;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Desktop - side cornstalks with cornstalk3.png */
+        .cornstalk-border {
+            position: fixed;
+            bottom: 0;
+            width: 280px;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+            object-fit: cover;
+            object-position: bottom center;
+        }
+
+        .cornstalk-left {
+            left: 10px;
+        }
+
+        .cornstalk-right {
+            right: 10px;
+            transform: scaleX(-1);
+        }
+
+        /* Centered cornstalk for tablets - initially hidden */
+        .cornstalk-center {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: 80vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+            object-fit: contain;
+        }
+
+        /* Tablets - hide side cornstalks, show centered cornstalk.png */
+        @media (max-width: 1400px) and (min-width: 768px) {
+            .cornstalk-border {
+                display: none;
+            }
+
+            .cornstalk-center {
+                display: block;
+            }
+        }
+
+        /* Phones - hide all cornstalks */
+        @media (max-width: 767px) {
+            .cornstalk-border,
+            .cornstalk-center {
+                display: none;
+            }
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2C2C2C;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: #FFF9E6;
+            border-left: 4px solid #FDB813;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        .info-box li:before {
+            content: "•";
+            color: #FDB813;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .selection-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .user-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid #40E0D0;
+        }
+
+        .user-panel h2 {
+            color: #40E0D0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #40E0D0;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #40E0D0;
+        }
+
+        option {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .clan-option-group {
+            font-weight: bold;
+            color: #40E0D0;
+        }
+
+        .compare-button {
+            width: 100%;
+            padding: 15px;
+            background: #FDB813;
+            color: #2C2C2C;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(253, 184, 19, 0.4);
+        }
+
+        .compare-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(253, 184, 19, 0.6);
+        }
+
+        .compare-button:active {
+            transform: translateY(0);
+        }
+
+        .results-area {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid #FDB813;
+            display: none;
+        }
+
+        .results-area.show {
+            display: block;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #40E0D0;
+        }
+
+        .results-header h2 {
+            color: #2C2C2C;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .clan-lists {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .clan-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .clan-list h3 {
+            color: #40E0D0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .clan-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border-radius: 5px;
+            border-left: 4px solid #FDB813;
+        }
+
+        .clan-item .navajo {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .clan-item .english {
+            color: #666;
+            font-size: 0.95em;
+            margin-top: 3px;
+        }
+
+        .clan-item .group {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 3px;
+        }
+
+        .comparison-section {
+            margin-bottom: 30px;
+        }
+
+        .comparison-section h3 {
+            color: #2C2C2C;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            border-bottom: 2px solid #FDB813;
+            padding-bottom: 10px;
+        }
+
+        .position-comparison {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        .position-comparison h4 {
+            color: #40E0D0;
+            margin-bottom: 15px;
+        }
+
+        .comparison-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .comparison-item {
+            padding: 12px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .comparison-item .label {
+            font-weight: 600;
+            color: #40E0D0;
+            margin-bottom: 5px;
+        }
+
+        .match-status {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .match-status.exact {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+
+        .match-status.group {
+            background: #E0F7F5;
+            color: #006B63;
+            border-left: 4px solid #40E0D0;
+        }
+
+        .match-status.none {
+            background: #f8f9fa;
+            color: #666;
+            border-left: 4px solid #6c757d;
+        }
+
+        .match-status.unknown {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid #ffc107;
+        }
+
+        .overall-analysis {
+            background: #40E0D0;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .overall-analysis h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+        }
+
+        .analysis-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .analysis-section h4 {
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .match-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .match-list li {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .no-conflicts {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        @media (max-width: 968px) {
+            .selection-area,
+            .clan-lists,
+            .comparison-pair {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .user-panel h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        /* Enhanced Mobile Styles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .info-box {
+                padding: 12px;
+                font-size: 0.9em;
+            }
+
+            .user-panel {
+                padding: 20px 15px;
+                margin-bottom: 15px;
+            }
+
+            .user-panel h2 {
+                font-size: 1.4em;
+                margin-bottom: 15px;
+            }
+
+            .input-group {
+                margin-bottom: 20px;
+            }
+
+            label {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+
+            .custom-select-button {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .custom-select-button .english-display {
+                text-align: left;
+            }
+
+            input[type="text"],
+            select {
+                padding: 16px;
+                font-size: 16px;
+                min-height: 48px;
+            }
+
+            select {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 12px center;
+                padding-right: 40px;
+            }
+
+            .compare-button {
+                padding: 18px;
+                font-size: 1.1em;
+                margin-top: 10px;
+                min-height: 56px;
+            }
+
+            .results-area {
+                padding: 20px 15px;
+            }
+
+            .clan-item {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .clan-item .navajo {
+                font-size: 1em;
+            }
+
+            .position-comparison {
+                padding: 15px;
+            }
+
+            .comparison-item {
+                padding: 15px;
+            }
+
+            .overall-analysis {
+                padding: 20px 15px;
+            }
+
+            .analysis-section {
+                padding: 15px;
+            }
+
+            .sacred-colors-bar {
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .subtitle {
+                font-size: 0.95em;
+            }
+
+            .user-panel h2 {
+                font-size: 1.2em;
+            }
+
+            .compare-button {
+                font-size: 1em;
+            }
+
+            .sacred-colors-bar {
+                height: 15px;
+            }
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* Custom Dropdown Modal */
+        .dropdown-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dropdown-modal.active {
+            display: flex;
+        }
+
+        .dropdown-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .dropdown-modal-header {
+            background: #40E0D0;
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            font-size: 1.4em;
+            font-weight: 600;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .dropdown-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2em;
+            cursor: pointer;
+            line-height: 1;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+        }
+
+        .dropdown-modal-body {
+            padding: 20px;
+        }
+
+        .clan-option {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .clan-option:hover {
+            background: #F0F0F0;
+        }
+
+        .clan-option:last-child {
+            border-bottom: none;
+        }
+
+        .clan-option .navajo-name {
+            font-weight: 600;
+            color: #2C2C2C;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .clan-option .english-name {
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .clan-group-header {
+            background: #40E0D0;
+            color: white;
+            padding: 12px 15px;
+            font-weight: 600;
+            font-size: 1.1em;
+            position: sticky;
+            top: 70px;
+            z-index: 5;
+        }
+
+        select.hidden-select {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        .custom-select-button {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+            text-align: left;
+            color: #333;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .custom-select-button:hover {
+            border-color: #40E0D0;
+        }
+
+        .custom-select-button.has-value {
+            border-color: #40E0D0;
+            background: #F0F9F9;
+        }
+
+        .custom-select-button .placeholder {
+            color: #999;
+        }
+
+        .custom-select-button .navajo-display {
+            color: #2C2C2C;
+            font-size: 1em;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .custom-select-button .english-display {
+            color: #666;
+            font-size: 0.9em;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .sacred-colors-bar {
+            display: flex;
+            height: 8px;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            border: 2px solid white;
+            border-bottom: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .sacred-colors-bar .color-red {
+            flex: 1;
+            background: #B7410E;
+        }
+
+        .sacred-colors-bar .color-turquoise {
+            flex: 1;
+            background: #40E0D0;
+        }
+
+        .sacred-colors-bar .color-yellow {
+            flex: 1;
+            background: #FDB813;
+        }
+
+        .sacred-colors-bar .color-black {
+            flex: 1;
+            background: #2C2C2C;
+        }
+
+        header {
+            border-radius: 0 0 15px 15px;
+            border: 2px solid white;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Desktop Side Cornstalks (cornstalk3.png) -->
+    <img src="cornstalk3.png"
+         alt="Cornstalk decoration"
+         class="cornstalk-border cornstalk-left">
+
+    <img src="cornstalk3.png"
+         alt="Cornstalk decoration"
+         class="cornstalk-border cornstalk-right">
+
+    <!-- Tablet Centered Cornstalk (cornstalk3.png) -->
+    <img src="cornstalk3.png"
+         alt="Cornstalk decoration"
+         class="cornstalk-center">
+
+    <div class="container">
+        <div class="sacred-colors-bar">
+            <div class="color-red"></div>
+            <div class="color-turquoise"></div>
+            <div class="color-yellow"></div>
+            <div class="color-black"></div>
+        </div>
+        <header>
+            <h1>Navajo Clan Relationship Application</h1>
+            <p class="subtitle">Compare clan relationships between two people</p>
+            <div class="info-box">
+                <p><strong>This application honors Navajo tradition through:</strong></p>
+                <ul>
+                    <li>The four sacred colors: White (East), Turquoise (South), Yellow (West), and Black (North)</li>
+                    <li>Traditional red earth tones complementing the sacred colors</li>
+                    <li>Corn (Naadą́ą́'), one of the four sacred plants, decorating the page borders</li>
+                    <li>Proper Navajo orthography with high tones (á, é, í, ó)</li>
+                    <li>Glottal stops (')</li>
+                    <li>Barred L (ł)</li>
+                    <li>Nasal vowels (ą, ę, į, ǫ)</li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="selection-area">
+            <div class="user-panel">
+                <h2>First Person</h2>
+                <div class="input-group">
+                    <label for="user1-name">Name:</label>
+                    <input type="text" id="user1-name" placeholder="Enter first person's name" value="User 1">
+                </div>
+                <div class="input-group">
+                    <label for="user1-clan1">1st Clan (Born to):</label>
+                    <select id="user1-clan1"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user1-clan2">2nd Clan (Born for):</label>
+                    <select id="user1-clan2"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user1-clan3">3rd Clan (Maternal Grandfather):</label>
+                    <select id="user1-clan3"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user1-clan4">4th Clan (Paternal Grandfather):</label>
+                    <select id="user1-clan4"></select>
+                </div>
+            </div>
+
+            <div class="user-panel">
+                <h2>Second Person</h2>
+                <div class="input-group">
+                    <label for="user2-name">Name:</label>
+                    <input type="text" id="user2-name" placeholder="Enter second person's name" value="User 2">
+                </div>
+                <div class="input-group">
+                    <label for="user2-clan1">1st Clan (Born to):</label>
+                    <select id="user2-clan1"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user2-clan2">2nd Clan (Born for):</label>
+                    <select id="user2-clan2"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user2-clan3">3rd Clan (Maternal Grandfather):</label>
+                    <select id="user2-clan3"></select>
+                </div>
+                <div class="input-group">
+                    <label for="user2-clan4">4th Clan (Paternal Grandfather):</label>
+                    <select id="user2-clan4"></select>
+                </div>
+            </div>
+        </div>
+
+        <button class="compare-button" onclick="compareClans()">Compare Clans</button>
+
+        <div id="results" class="results-area">
+            <!-- Results will be populated here -->
+        </div>
+    </div>
+
+    <script src="clans_data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
