@@ -524,10 +524,10 @@ function generateIntroduction(userName, userClans, userNum) {
         <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #40E0D0 0%, #2CA89F 100%); padding: 3px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.3);">
             <!-- Sacred Colors Bar -->
             <div style="display: flex; height: 10px; border-radius: 18px 18px 0 0;">
-                <div style="flex: 1; background: #B7410E;"></div>
+                <div style="flex: 1; background: #B7410E; border-radius: 18px 0 0 0;"></div>
                 <div style="flex: 1; background: #40E0D0;"></div>
                 <div style="flex: 1; background: #FDB813;"></div>
-                <div style="flex: 1; background: #2C2C2C;"></div>
+                <div style="flex: 1; background: #2C2C2C; border-radius: 0 18px 0 0;"></div>
             </div>
             
             <!-- Main Content Card -->
