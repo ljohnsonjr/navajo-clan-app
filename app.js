@@ -539,8 +539,8 @@ function generateIntroduction(userName, userClans, userNum) {
                 
                 <!-- Title -->
                 <div style="text-align: center; margin-bottom: 30px;">
-                    <h2 style="color: #40E0D0; font-size: 1.8em; margin: 0 0 5px 0; font-weight: 700;">Yá'át'ééh</h2>
-                    <p style="color: #666; margin: 0; font-size: 0.9em;">Traditional Navajo Introduction</p>
+                    <p style="color: #666; margin: 0 0 5px 0; font-size: 0.9em;">Traditional Navajo Introduction</p>
+                    <h2 style="color: #40E0D0; font-size: 1.8em; margin: 0; font-weight: 700;">Yá'át'ééh</h2>
                 </div>
                 
                 <!-- Navajo Introduction Text -->
