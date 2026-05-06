@@ -455,6 +455,17 @@ function setupCustomDropdowns() {
     });
 }
 
+// Normalize text for search: strip diacritics and special Navajo characters
+function normalizeForSearch(str) {
+    return str
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '')  // remove combining diacritical marks
+        .replace(/ł/g, 'l')
+        .replace(/Ł/g, 'L')
+        .replace(/[''ʼ]/g, '')            // remove glottal stops
+        .toLowerCase();
+}
+
 function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
     const modal = document.getElementById('dropdown-modal');
     const modalTitle = document.getElementById('modal-title');
@@ -470,6 +481,65 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
 
     modalTitle.textContent = `${possessiveName} ${config.label}`;
 
+    // Build search input and clan list
+    let html = '<input type="text" id="clan-search-input" placeholder="Search by English or Navajo name..." style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box;" autocomplete="off">';
+    html += '<div id="clan-search-results">';
+    html += buildClanListHTML(config.id, navajoClans, adoptedClans);
+    html += '</div>';
+
+    modalBody.innerHTML = html;
+    modal.classList.add('active');
+
+    // Set up search filtering
+    const searchInput = document.getElementById('clan-search-input');
+    searchInput.addEventListener('input', () => {
+        const query = normalizeForSearch(searchInput.value);
+        const resultsContainer = document.getElementById('clan-search-results');
+
+        if (!query) {
+            resultsContainer.innerHTML = buildClanListHTML(config.id, navajoClans, adoptedClans);
+            return;
+        }
+
+        let matchHTML = '';
+        const matchingNavajo = navajoClans.map((clan, index) => ({ clan, index, category: 'navajo' }))
+            .filter(({ clan }) =>
+                normalizeForSearch(clan.navajo).includes(query) ||
+                normalizeForSearch(clan.english).includes(query) ||
+                (clan.hopi && normalizeForSearch(clan.hopi).includes(query))
+            );
+
+        const matchingAdopted = adoptedClans.map((clan, index) => ({ clan, index, category: 'adopted' }))
+            .filter(({ clan }) =>
+                normalizeForSearch(clan.navajo).includes(query) ||
+                normalizeForSearch(clan.english).includes(query) ||
+                (clan.hopi && normalizeForSearch(clan.hopi).includes(query))
+            );
+
+        if (matchingNavajo.length === 0 && matchingAdopted.length === 0) {
+            matchHTML = '<div style="padding: 20px; text-align: center; color: #666;">No clans found</div>';
+        } else {
+            [...matchingNavajo, ...matchingAdopted].forEach(({ clan, index, category }) => {
+                const displayText = clan.hopi
+                    ? `${clan.english} / ${clan.hopi} ${clan.type ? `(${clan.type})` : ''}`
+                    : `${clan.english} ${clan.type ? `(${clan.type})` : ''}`;
+                matchHTML += `
+                    <div class="clan-option" onclick="selectClan('${config.id}', '${index}_${category}', '${clan.navajo.replace(/'/g, "\\'")}', '${displayText.replace(/'/g, "\\'")}')">
+                        <div class="navajo-name">${clan.navajo}</div>
+                        <div class="english-name">${displayText}</div>
+                    </div>
+                `;
+            });
+        }
+
+        resultsContainer.innerHTML = matchHTML;
+    });
+
+    // Focus search input after modal opens
+    setTimeout(() => searchInput.focus(), 100);
+}
+
+function buildClanListHTML(selectId, navajoClans, adoptedClans) {
     let html = '';
 
     // Traditional Navajo Clans
@@ -479,7 +549,7 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
             ? `${clan.english} / ${clan.hopi} (${clan.type})`
             : clan.english;
         html += `
-            <div class="clan-option" onclick="selectClan('${config.id}', '${index}_navajo', '${clan.navajo.replace(/'/g, "\\'")}', '${displayText.replace(/'/g, "\\'")}')">
+            <div class="clan-option" onclick="selectClan('${selectId}', '${index}_navajo', '${clan.navajo.replace(/'/g, "\\'")}', '${displayText.replace(/'/g, "\\'")}')">
                 <div class="navajo-name">${clan.navajo}</div>
                 <div class="english-name">${displayText}</div>
             </div>
@@ -493,7 +563,7 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
             ? `${clan.english} / ${clan.hopi} ${clan.type ? `(${clan.type})` : ''}`
             : `${clan.english} ${clan.type ? `(${clan.type})` : ''}`;
         html += `
-            <div class="clan-option" onclick="selectClan('${config.id}', '${index}_adopted', '${clan.navajo.replace(/'/g, "\\'")}', '${displayText.replace(/'/g, "\\'")}')">
+            <div class="clan-option" onclick="selectClan('${selectId}', '${index}_adopted', '${clan.navajo.replace(/'/g, "\\'")}', '${displayText.replace(/'/g, "\\'")}')">
                 <div class="navajo-name">${clan.navajo}</div>
                 <div class="english-name">${displayText}</div>
             </div>
@@ -503,14 +573,13 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
     // Special option
     html += '<div class="clan-group-header">SPECIAL OPTIONS</div>';
     html += `
-        <div class="clan-option" onclick="selectClan('${config.id}', 'not-listed', 'Clan not listed', 'My clan is not in this list')">
+        <div class="clan-option" onclick="selectClan('${selectId}', 'not-listed', 'Clan not listed', 'My clan is not in this list')">
             <div class="navajo-name">Clan not listed</div>
             <div class="english-name">My clan is not in this list</div>
         </div>
     `;
 
-    modalBody.innerHTML = html;
-    modal.classList.add('active');
+    return html;
 }
 
 function selectClan(selectId, value, navajoName, englishName) {
