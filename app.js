@@ -280,18 +280,32 @@ function getOverallAnalysis(user1Name, user1Clans, user2Name, user2Clans) {
                 <h4>✅ Exact Clan Matches Found</h4>
                 <ul class="match-list">
                     ${sharedClans.map(navajo => {
-                        const user1Index = user1Clans.findIndex(c => c.navajo === navajo);
-                        const user2Index = user2Clans.findIndex(c => c.navajo === navajo);
-                        const clan = user1Clans[user1Index];
+                        // Find all positions where this clan appears for each user
+                        const user1Indices = user1Clans.reduce((indices, c, index) => {
+                            if (c.navajo === navajo) indices.push(index);
+                            return indices;
+                        }, []);
+                        const user2Indices = user2Clans.reduce((indices, c, index) => {
+                            if (c.navajo === navajo) indices.push(index);
+                            return indices;
+                        }, []);
+
+                        const clan = user1Clans[user1Indices[0]];
                         const positions = ['1st', '2nd', '3rd', '4th'];
 
                         let positionText = '';
-                        if (user1Index !== -1) {
-                            positionText += `${user1Name}'s ${positions[user1Index]} clan`;
+                        if (user1Indices.length > 0) {
+                            const posText = user1Indices.length > 1
+                                ? user1Indices.map(i => positions[i]).join(' & ')
+                                : positions[user1Indices[0]];
+                            positionText += `${user1Name}'s ${posText} clan`;
                         }
-                        if (user2Index !== -1) {
+                        if (user2Indices.length > 0) {
                             if (positionText) positionText += ', ';
-                            positionText += `${user2Name}'s ${positions[user2Index]} clan`;
+                            const posText = user2Indices.length > 1
+                                ? user2Indices.map(i => positions[i]).join(' & ')
+                                : positions[user2Indices[0]];
+                            positionText += `${user2Name}'s ${posText} clan`;
                         }
 
                         return `<li>${clan.navajo} (${formatClanDisplay(clan)}) - <em>${positionText}</em></li>`;
@@ -310,22 +324,51 @@ function getOverallAnalysis(user1Name, user1Clans, user2Name, user2Clans) {
                     const user2InGroup = user2Clans.filter(c => c.group === group);
                     const positions = ['1st', '2nd', '3rd', '4th'];
 
+                    // Helper function to find all indices where a clan appears
+                    const findAllIndices = (clans, targetClan) => {
+                        return clans.reduce((indices, clan, index) => {
+                            if (clan.navajo === targetClan.navajo) {
+                                indices.push(index);
+                            }
+                            return indices;
+                        }, []);
+                    };
+
+                    // Group clans by their Navajo name to handle duplicates
+                    const groupUser1Clans = user1InGroup.reduce((acc, c) => {
+                        if (!acc[c.navajo]) {
+                            acc[c.navajo] = { clan: c, indices: findAllIndices(user1Clans, c) };
+                        }
+                        return acc;
+                    }, {});
+
+                    const groupUser2Clans = user2InGroup.reduce((acc, c) => {
+                        if (!acc[c.navajo]) {
+                            acc[c.navajo] = { clan: c, indices: findAllIndices(user2Clans, c) };
+                        }
+                        return acc;
+                    }, {});
+
                     return `
                         <div style="margin-bottom: 15px;">
                             <strong>${group}:</strong>
                             <div style="margin-left: 20px; margin-top: 8px;">
                                 <div><strong>${user1Name}:</strong></div>
                                 <ul class="match-list">
-                                    ${user1InGroup.map(c => {
-                                        const index = user1Clans.findIndex(clan => clan.navajo === c.navajo);
-                                        return `<li>${c.navajo} (${formatClanDisplay(c)}) - <em>${positions[index]} clan</em></li>`;
+                                    ${Object.values(groupUser1Clans).map(({ clan, indices }) => {
+                                        const positionText = indices.length > 1
+                                            ? indices.map(i => positions[i]).join(' & ') + ' clan'
+                                            : positions[indices[0]] + ' clan';
+                                        return `<li>${clan.navajo} (${formatClanDisplay(clan)}) - <em>${positionText}</em></li>`;
                                     }).join('')}
                                 </ul>
                                 <div style="margin-top: 8px;"><strong>${user2Name}:</strong></div>
                                 <ul class="match-list">
-                                    ${user2InGroup.map(c => {
-                                        const index = user2Clans.findIndex(clan => clan.navajo === c.navajo);
-                                        return `<li>${c.navajo} (${formatClanDisplay(c)}) - <em>${positions[index]} clan</em></li>`;
+                                    ${Object.values(groupUser2Clans).map(({ clan, indices }) => {
+                                        const positionText = indices.length > 1
+                                            ? indices.map(i => positions[i]).join(' & ') + ' clan'
+                                            : positions[indices[0]] + ' clan';
+                                        return `<li>${clan.navajo} (${formatClanDisplay(clan)}) - <em>${positionText}</em></li>`;
                                     }).join('')}
                                 </ul>
                             </div>
