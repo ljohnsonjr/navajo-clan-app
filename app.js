@@ -482,7 +482,7 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
     modalTitle.textContent = `${possessiveName} ${config.label}`;
 
     // Build search input and clan list
-    let html = '<input type="text" id="clan-search-input" placeholder="Search by English or Navajo name..." style="width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box;" autocomplete="off">';
+    let html = '<input type="text" id="clan-search-input" placeholder="Search by English or Navajo name..." style="width: 100%; padding: 10px 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; margin-bottom: 5px; box-sizing: border-box;" autocomplete="off">';
     html += '<div id="clan-search-results">';
     html += buildClanListHTML(config.id, navajoClans, adoptedClans);
     html += '</div>';
