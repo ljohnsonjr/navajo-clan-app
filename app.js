@@ -492,12 +492,33 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
 
     // Set up search filtering
     const searchInput = document.getElementById('clan-search-input');
+
+    const hideGroupHeaders = () => {
+        document.querySelectorAll('#clan-search-results .clan-group-header').forEach(el => {
+            el.style.display = 'none';
+        });
+    };
+
+    const showGroupHeaders = () => {
+        document.querySelectorAll('#clan-search-results .clan-group-header').forEach(el => {
+            el.style.display = '';
+        });
+    };
+
+    searchInput.addEventListener('focus', hideGroupHeaders);
+    searchInput.addEventListener('blur', () => {
+        if (!searchInput.value.trim()) {
+            showGroupHeaders();
+        }
+    });
+
     searchInput.addEventListener('input', () => {
         const query = normalizeForSearch(searchInput.value);
         const resultsContainer = document.getElementById('clan-search-results');
 
         if (!query) {
             resultsContainer.innerHTML = buildClanListHTML(config.id, navajoClans, adoptedClans);
+            hideGroupHeaders();
             return;
         }
 
