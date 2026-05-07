@@ -556,8 +556,6 @@ function openDropdownModal(config, navajoClans, adoptedClans, button, select) {
         resultsContainer.innerHTML = matchHTML;
     });
 
-    // Focus search input after modal opens
-    setTimeout(() => searchInput.focus(), 100);
 }
 
 function buildClanListHTML(selectId, navajoClans, adoptedClans) {
